@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 @RestController
@@ -35,7 +37,7 @@ public class DepartmentController {
         return departmentService.departmentAll(departmentId);
     }
     @GetMapping("/all")
-    public Stream<Employee> all() {
-        return departmentService.all();
+    public Map<Integer, List<Employee>> all() {
+        return  departmentService.all();
     }
 }

@@ -4,6 +4,9 @@ import com.example.homework.Employee;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -16,24 +19,26 @@ public class DepartmentService {
 
     public Employee maxSalary(int department) {
         return employeeService.getEmployees().stream()
-                .filter(e->e.getDepartmentId()==department)
+                .filter(e -> e.getDepartmentId() == department)
                 .max(Comparator.comparingInt(Employee::getSalary))
                 .orElse(null);
     }
 
     public Employee minSalary(int department) {
         return employeeService.getEmployees().stream()
-                .filter(employee->employee.getDepartmentId()==department)
+                .filter(employee -> employee.getDepartmentId() == department)
                 .min(Comparator.comparingInt(Employee::getSalary))
                 .orElse(null);
     }
 
-   public Stream<Employee> departmentAll(int department) {
-       return employeeService.getEmployees().stream()
-               .filter(employee->employee.getDepartmentId()==department);
-   }
-   public Stream<Employee>all() {
+    public Stream<Employee> departmentAll(int department) {
         return employeeService.getEmployees().stream()
-                .sorted(Comparator.comparing(Employee::getDepartmentId));
-   }
+                .filter(employee -> employee.getDepartmentId() == department);
+    }
+
+    public Map<Integer, List<Employee>> all() {
+        return employeeService.getEmployees()
+                .stream()
+                .collect(Collectors.groupingBy(Employee::getDepartmentId));
+    }
 }
